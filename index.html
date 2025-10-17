@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación del Proyecto: Solución Habitacional Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #005f73;
+            --color-secondary: #0a9396;
+            --color-accent: #ee9b00;
+            --color-background: #f8f9fa;
+            --color-text-dark: #212529;
+            --color-text-light: #495057;
+            --color-card-bg: #ffffff;
+            --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-dark);
+        }
+        
+        /* --- Animation Keyframes --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(30px); opacity: 0; }
+        }
+        
+        /* --- Presentation Structure --- */
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 550px; /* Fixed height for consistent slide view */
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* --- Slide Content Animations --- */
+        .slide.active .animated-title {
+            animation: slideInUp 0.6s ease-out 0.3s both;
+        }
+        .slide.active .animated-subtitle {
+            animation: slideInUp 0.6s ease-out 0.5s both;
+        }
+        .slide.active .animated-item {
+            animation: slideInUp 0.5s ease-out both;
+        }
+        
+        /* --- Progress Sidebar --- */
+        .progress-sidebar {
+            background-color: var(--color-card-bg);
+            border-right: 1px solid #e9ecef;
+        }
+        .progress-step {
+            transition: all 0.3s ease;
+        }
+        .progress-step.active, .progress-step:hover {
+            background-color: var(--color-primary);
+            color: white;
+            transform: translateX(5px);
+        }
+        .progress-step.active svg, .progress-step:hover svg {
+            stroke: white;
+        }
+        .progress-step.active .step-title, .progress-step:hover .step-title {
+            color: white !important;
+        }
+
+        /* --- Custom Table Styling --- */
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        th {
+            background-color: var(--color-primary);
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        td {
+            color: var(--color-text-light);
+        }
+
+        /* --- Custom List Styling --- */
+        .custom-list li::before {
+            content: '✓';
+            color: var(--color-secondary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: -1.5em;
+        }
+
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 md:p-8">
+
+    <div class="w-full max-w-6xl grid grid-cols-12 rounded-2xl shadow-2xl overflow-hidden" style="min-height: 700px;">
+        
+        <!-- Sidebar -->
+        <aside class="col-span-12 md:col-span-3 progress-sidebar p-6">
+            <h3 class="font-bold text-lg text-gray-800 mb-1">Contenido</h3>
+            <p class="text-sm text-gray-500 mb-6">Navegación del proyecto</p>
+            <div id="progress-steps-container" class="space-y-2">
+                <!-- Progress steps will be injected by JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-span-12 md:col-span-9 bg-white flex flex-col justify-between">
+            <div id="presentation-container" class="presentation-container">
+                <!-- Diapositiva 1 -->
+                <div class="slide active text-center">
+                    <h1 class="animated-title text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">Solución Habitacional Integral para el AMB</h1>
+                    <p class="animated-subtitle text-xl md:text-2xl text-gray-500">Un Enfoque Basado en la Demanda Social y la Resiliencia</p>
+                </div>
+
+                <!-- Diapositiva 2 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-blue-900 mb-6">1. Estudio de Mercado - Principios</h2>
+                    <ul class="space-y-4 text-lg text-gray-600">
+                        <li class="animated-item" style="animation-delay: 0.3s;"><strong>Contexto:</strong> El mercado de vivienda responde a una <strong class="text-blue-700">demanda social e institucional</strong> por condiciones críticas.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;"><strong>Expansión Informal:</strong> Más del <strong class="text-red-600">40% de la expansión urbana</strong> es por autoconstrucción sin control.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;"><strong>Zonas Críticas:</strong>
+                            <p class="text-md mt-2 text-gray-500">Colorados, Norte Bajo, Villas de San Ignacio, El Poblado, Asomiflor, Altos de Bellavista, Brisas del Río.</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Diapositiva 3 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-blue-900 mb-6">1. Estudio de Mercado - Fundamentos</h2>
+                    <ol class="space-y-3 text-lg text-gray-600">
+                        <li class="animated-item p-2 rounded-md" style="animation-delay: 0.3s;"><strong>Riesgo Geotécnico:</strong> Viviendas en zonas con pendientes >30%.</li>
+                        <li class="animated-item p-2 rounded-md" style="animation-delay: 0.5s;"><strong>Problemáticas Térmicas:</strong> Interiores que alcanzan hasta <strong class="text-red-600">36 °C</strong>.</li>
+                        <li class="animated-item p-2 rounded-md" style="animation-delay: 0.7s;"><strong>Emergencias Frecuentes:</strong> Más de <strong class="text-red-600">90 eventos</strong> reportados (2022-2024).</li>
+                        <li class="animated-item p-2 rounded-md" style="animation-delay: 0.9s;"><strong>Necesidad Institucional:</strong> Urgencia de reemplazar o reubicar viviendas.</li>
+                    </ol>
+                    <p class="animated-item mt-6 bg-blue-50 p-4 rounded-lg text-blue-800 font-semibold" style="animation-delay: 1.1s;"><strong>Conclusión:</strong> Mercado basado en decisiones institucionales, inversión pública y presión social.</p>
+                </div>
+
+                <!-- Diapositiva 4 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-green-800 mb-6">2. El Producto - Una Solución Integral</h2>
+                    <ul class="custom-list list-inside space-y-3 text-lg text-gray-600 pl-6">
+                        <li class="animated-item" style="animation-delay: 0.3s;"><strong class="text-green-700">Respuesta Estructural:</strong> Contra colapsos y agrietamientos.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;"><strong class="text-green-700">Resiliencia Térmica:</strong> Combate el calor extremo.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;"><strong class="text-green-700">Construcción Limpia y Rápida:</strong> Sin escombros ni maquinaria pesada.</li>
+                        <li class="animated-item" style="animation-delay: 0.9s;"><strong class="text-green-700">Durabilidad Superior:</strong> Proyectada para más de 50 años.</li>
+                        <li class="animated-item" style="animation-delay: 1.1s;"><strong class="text-green-700">Reubicación Inmediata:</strong> Para zonas de riesgo no mitigable.</li>
+                    </ul>
+                </div>
+
+                <!-- Diapositiva 5 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-blue-900 mb-6">3. La Demanda - Sostenida y Acumulada (> 25,000 Unidades)</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="animated-item bg-gray-50 p-6 rounded-lg" style="animation-delay: 0.3s;">
+                            <h4 class="font-bold text-lg mb-2 text-blue-800">a) Demanda Institucional</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>Alcaldías, UNGRD, MinVivienda, CDMB.</li>
+                                <li>ONU-Hábitat, BID, CAF, USAID.</li>
+                            </ul>
+                        </div>
+                        <div class="animated-item bg-gray-50 p-6 rounded-lg" style="animation-delay: 0.5s;">
+                            <h4 class="font-bold text-lg mb-2 text-blue-800">b) Demanda Social Directa</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>Comunidades en Asomiflor, El Poblado, etc.</li>
+                                <li>Viviendas sin drenaje ni cimentación.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diapositiva 6 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-yellow-800 mb-6">4. La Oferta - Insuficiente y Limitada</h2>
+                    <ul class="custom-list list-inside space-y-3 text-lg text-gray-600 pl-6">
+                        <li class="animated-item" style="animation-delay: 0.3s;"><strong>Construcción Convencional:</strong> Costosa, lenta y burocrática.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;"><strong>Subsidios y Albergues:</strong> Soluciones temporales, no estructurales.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;"><strong>Mejoramientos Parciales:</strong> No corrigen el riesgo de fondo.</li>
+                        <li class="animated-item" style="animation-delay: 0.9s;"><strong>Programas VIS Tradicionales:</strong> No incorporan diseño bioclimático.</li>
+                    </ul>
+                     <p class="animated-item mt-6 bg-yellow-50 p-4 rounded-lg text-yellow-900 font-semibold" style="animation-delay: 1.1s;"><strong>Oportunidad:</strong> El sistema Renco es una <strong class="font-bold">tecnología diferencial</strong> para este vacío.</p>
+                </div>
+
+                <!-- Diapositiva 7 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-green-800 mb-6">5. El Precio - Competitividad y Financiación</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="animated-item bg-green-50 p-6 rounded-lg" style="animation-delay: 0.3s;">
+                            <h4 class="font-bold text-lg mb-2 text-green-900">Beneficios Competitivos</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>Ahorro del 15-25% en materiales.</li>
+                                <li>Reducción del 30% en tiempo.</li>
+                                <li>Eliminación de costos de mantenimiento.</li>
+                            </ul>
+                        </div>
+                        <div class="animated-item bg-gray-50 p-6 rounded-lg" style="animation-delay: 0.5s;">
+                            <h4 class="font-bold text-lg mb-2 text-gray-800">Fuentes de Financiación</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li>Fondos de reasentamiento (UNGRD).</li>
+                                <li>Presupuesto municipal y departamental.</li>
+                                <li>Cooperación y alianzas público-privadas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diapositiva 8 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-purple-800 mb-6">6. Comercialización y Posicionamiento</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="animated-item" style="animation-delay: 0.3s;">
+                            <h4 class="font-bold text-lg mb-2 text-purple-900">Estrategia de Comercialización</h4>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-600">
+                                <li>Articulación con alcaldías y CDMB.</li>
+                                <li>Inclusión en planes de riesgo y POT.</li>
+                                <li>Proyectos piloto en barrios críticos.</li>
+                                <li>Fabricación local para empleo.</li>
+                            </ol>
+                        </div>
+                        <div class="animated-item" style="animation-delay: 0.5s;">
+                            <h4 class="font-bold text-lg mb-2 text-purple-900">Ejes de Posicionamiento</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                <li class="font-semibold text-purple-700">Resiliencia</li>
+                                <li class="font-semibold text-purple-700">Confort</li>
+                                <li class="font-semibold text-purple-700">Rapidez</li>
+                                <li class="font-semibold text-purple-700">Sostenibilidad</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Diapositiva 9 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-blue-900 mb-6">7. Análisis Oferta-Demanda</h2>
+                    <h3 class="animated-subtitle text-xl font-semibold text-gray-700 mb-6">Oportunidad Estratégica Clara</h3>
+                     <ul class="custom-list list-inside space-y-3 text-lg text-gray-600 pl-6">
+                        <li class="animated-item" style="animation-delay: 0.3s;">Presión institucional por reubicar.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;">Ausencia de tecnologías rápidas y certificadas.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;">Emergencias crecientes que demandan soluciones.</li>
+                        <li class="animated-item" style="animation-delay: 0.9s;">Valor agregado del diseño bioclimático.</li>
+                    </ul>
+                </div>
+                
+                <!-- Diapositiva 10 -->
+                <div class="slide text-center">
+                    <h1 class="animated-title text-4xl font-extrabold text-gray-800 mb-4">Estudios Ambientales y Sociales</h1>
+                    <p class="animated-subtitle text-xl text-green-700 font-semibold">Impacto Positivo en Zonas de Alta Vulnerabilidad</p>
+                </div>
+
+                <!-- Diapositiva 11 -->
+                <div class="slide">
+                     <h2 class="animated-title text-3xl font-bold text-green-800 mb-6">Impacto Ambiental Positivo</h2>
+                     <ul class="custom-list list-inside space-y-3 text-lg text-gray-600 pl-6">
+                        <li class="animated-item" style="animation-delay: 0.3s;"><strong>Construcción Limpia:</strong> Cero escombros y menor huella de carbono.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;"><strong>Reducción de Erosión:</strong> Al reubicar viviendas de zonas de riesgo.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;"><strong>Eficiencia Energética:</strong> Reduce el consumo en un <strong>20-30%</strong>.</li>
+                        <li class="animated-item" style="animation-delay: 0.9s;"><strong>Sostenibilidad a Largo Plazo:</strong> Durabilidad de +50 años.</li>
+                    </ul>
+                </div>
+                
+                <!-- Diapositiva 12 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-green-800 mb-6">Plan de Contingencia Ambiental</h2>
+                     <ol class="list-decimal list-inside space-y-3 text-lg text-gray-600">
+                        <li class="animated-item" style="animation-delay: 0.3s;"><strong>Control de Residuos:</strong> Separación y disposición certificada.</li>
+                        <li class="animated-item" style="animation-delay: 0.5s;"><strong>Prevención de Contaminación Hídrica:</strong> Drenajes provisionales.</li>
+                        <li class="animated-item" style="animation-delay: 0.7s;"><strong>Revegetación:</strong> Siembra de especies nativas.</li>
+                        <li class="animated-item" style="animation-delay: 0.9s;"><strong>Capacitación Comunitaria y Supervisión Continua.</strong></li>
+                    </ol>
+                </div>
+
+                <!-- Diapositiva 13 -->
+                <div class="slide">
+                     <h2 class="animated-title text-3xl font-bold text-blue-900 mb-6">Estudio Social y Empleo</h2>
+                    <table class="animated-item" style="animation-delay: 0.3s;">
+                        <thead><tr><th>Tipo de Empleo</th><th>Descripción</th><th>Impacto Esperado</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Directos</strong></td><td>Obreros, técnicos en sistema Renco.</td><td>10-15 empleos/piloto</td></tr>
+                            <tr><td><strong>Indirectos</strong></td><td>Logística, fabricación de módulos.</td><td>Hasta 30 empleos/fase</td></tr>
+                            <tr><td><strong>Comunitarios</strong></td><td>Autoconstrucción asistida.</td><td>Fomenta inclusión</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Diapositiva 14 -->
+                <div class="slide text-center">
+                    <h1 class="animated-title text-4xl font-extrabold text-gray-800 mb-4">Estudios Administrativos y Legales</h1>
+                    <p class="animated-subtitle text-xl text-gray-500">Viabilidad Institucional y Legal del Proyecto</p>
+                </div>
+
+                <!-- Diapositiva 15 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-gray-800 mb-6">Estructura Organizacional: Alianza Estratégica</h2>
+                    <table class="animated-item text-sm" style="animation-delay: 0.3s;">
+                        <thead><tr><th>Actor Clave</th><th>Rol Esencial</th><th>Riesgo Crítico a Mitigar</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Liderazgo Técnico (UPB/UIS)</strong></td><td>Garantizar rigor técnico y validación.</td><td>Pérdida de credibilidad.</td></tr>
+                            <tr><td><strong>Entidades Gubernamentales</strong></td><td>Asegurar marco legal y financiación.</td><td>Paralización por permisos.</td></tr>
+                            <tr><td><strong>Comunidades</strong></td><td>Participación y sostenibilidad social.</td><td>Oposición social.</td></tr>
+                            <tr><td><strong>Sector Privado / Cooperación</strong></td><td>Aporte de capital y tecnología.</td><td>Insuficiencia operacional.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Diapositiva 16 -->
+                <div class="slide">
+                    <h2 class="animated-title text-3xl font-bold text-gray-800 mb-6">Cumplimiento Normativo y Legal</h2>
+                     <table class="animated-item text-sm" style="animation-delay: 0.3s;">
+                        <thead><tr><th>Marco Normativo</th><th>Acción Requerida</th><th>Impacto en el Proyecto</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Derecho a Vivienda Digna</strong></td><td>Justificación de Intervención.</td><td>Facilita aplicación a fondos VIS.</td></tr>
+                            <tr><td><strong>Gestión del Riesgo (Ley 1523)</strong></td><td>Permisos de Reubicación.</td><td>Obliga a actuar en zonas de riesgo.</td></tr>
+                            <tr><td><strong>Planes de Ordenamiento (POT)</strong></td><td>Licencias de Construcción.</td><td>Define dónde y cómo construir.</td></tr>
+                            <tr><td><strong>Norma Sismo Resistente (NSR)</strong></td><td>Homologación del Sistema Renco.</td><td>Exige cumplir estándares de seguridad.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+             <!-- Navigation -->
+            <div class="p-6 bg-gray-50 border-t border-gray-200">
+                <div class="flex justify-between items-center">
+                    <button id="prevBtn" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 font-bold py-2 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                        Anterior
+                    </button>
+                    <span id="slideCounter" class="text-gray-600 font-medium text-sm"></span>
+                    <button id="nextBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm" style="background-color: var(--color-primary);">
+                        Siguiente
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slideCounter');
+            const progressStepsContainer = document.getElementById('progress-steps-container');
+            let currentSlide = 0;
+
+            const slideTitles = [
+                "Inicio", "Mercado: Principios", "Mercado: Fundamentos", "El Producto", 
+                "La Demanda", "La Oferta", "El Precio", "Comercialización", 
+                "Análisis Oferta-Demanda", "Estudios Ambientales", "Impacto Ambiental", 
+                "Contingencia Ambiental", "Estudio Social", "Estudios Administrativos", 
+                "Organización", "Marco Legal"
+            ];
+            
+            // --- Create Progress Steps ---
+            slideTitles.forEach((title, index) => {
+                const stepElement = document.createElement('button');
+                stepElement.className = 'progress-step w-full text-left p-3 rounded-lg flex items-center gap-3 cursor-pointer';
+                stepElement.dataset.index = index;
+                stepElement.innerHTML = `
+                    <svg class="w-5 h-5 text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <span class="step-title font-medium text-sm text-gray-700">${index + 1}. ${title}</span>
+                `;
+                stepElement.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+                progressStepsContainer.appendChild(stepElement);
+            });
+            
+            const progressSteps = document.querySelectorAll('.progress-step');
+
+            function updateUI() {
+                // Update slides
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === currentSlide);
+                });
+
+                // Update progress steps
+                progressSteps.forEach((step, index) => {
+                    step.classList.toggle('active', index === currentSlide);
+                });
+
+                // Update counter
+                slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+                // Update buttons
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === slides.length - 1;
+            }
+            
+            function goToSlide(n) {
+                if (n >= 0 && n < slides.length) {
+                    currentSlide = n;
+                    updateUI();
+                }
+            }
+
+            prevBtn.addEventListener('click', () => {
+                goToSlide(currentSlide - 1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                goToSlide(currentSlide + 1);
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'ArrowRight') {
+                    goToSlide(currentSlide + 1);
+                } else if (e.key === 'ArrowLeft') {
+                    goToSlide(currentSlide - 1);
+                }
+            });
+
+            // Initial setup
+            updateUI();
+        });
+    </script>
+</body>
+</html>
+
